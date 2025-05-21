@@ -23,6 +23,9 @@ export default defineConfig(({ mode }) => {
     build: {
       // Ensure proper MIME types for JavaScript modules
       rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+        },
         output: {
           // Ensure proper chunking
           manualChunks: {

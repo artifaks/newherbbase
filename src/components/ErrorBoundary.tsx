@@ -1,8 +1,7 @@
-import React from 'react';
-import { Button } from './ui/button';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 interface State {
@@ -10,44 +9,35 @@ interface State {
   error: Error | null;
 }
 
-export class ErrorBoundary extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
+export class ErrorBoundary extends Component<Props, State> {
+  public state: State = {
+    hasError: false,
+    error: null
+  };
 
-  static getDerivedStateFromError(error: Error): State {
+  public static getDerivedStateFromError(error: Error): State {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Log error to your error reporting service
-    console.error('Error caught by boundary:', error, errorInfo);
+  public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error('Uncaught error:', error, errorInfo);
   }
 
-  render() {
+  public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-background">
-          <div className="max-w-md w-full p-6 bg-card rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold text-destructive mb-4">Something went wrong</h2>
-            <p className="text-muted-foreground mb-4">
-              {this.state.error?.message || 'An unexpected error occurred'}
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
+            <h2 className="text-2xl font-bold text-red-600 mb-4">Something went wrong</h2>
+            <p className="text-gray-600 mb-4">
+              We apologize for the inconvenience. Please try refreshing the page or contact support if the problem persists.
             </p>
-            <div className="space-x-4">
-              <Button
-                onClick={() => window.location.reload()}
-                variant="default"
-              >
-                Refresh Page
-              </Button>
-              <Button
-                onClick={() => this.setState({ hasError: false, error: null })}
-                variant="outline"
-              >
-                Try Again
-              </Button>
-            </div>
+            <button
+              onClick={() => window.location.reload()}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
+            >
+              Refresh Page
+            </button>
           </div>
         </div>
       );
