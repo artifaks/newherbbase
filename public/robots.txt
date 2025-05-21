@@ -1,0 +1,28 @@
+
+# Herbal Wisdom Robots.txt
+User-agent: *
+Allow: /
+Disallow: /ebooks/*/success
+Disallow: /herb-import
+Disallow: /auth/reset-password
+Disallow: /admin/*
+
+# Allow primary content sections
+Allow: /blog
+Allow: /blog/*
+Allow: /herbs
+Allow: /herbs/*
+Allow: /ebooks
+Allow: /ebooks/*
+Allow: /story
+Allow: /testimonials
+
+# Prevent duplicate content indexing
+Disallow: /auth?*
+Disallow: /herbs?*duplicate=true
+
+# Rate limiting to prevent overloading the server
+Crawl-delay: 1
+
+# Sitemap reference
+Sitemap: https://herbalwisdom.com/sitemap.xml

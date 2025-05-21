@@ -1,0 +1,163 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+ 
+    --radius: 0.5rem;
+    
+    --herbal-50: 138 100% 95%;
+    --herbal-100: 138 100% 90%;
+    --herbal-200: 138 95% 80%;
+    --herbal-300: 138 90% 70%;
+    --herbal-400: 138 85% 60%;
+    --herbal-500: 138 80% 50%;
+    --herbal-600: 138 85% 40%;
+    --herbal-700: 138 90% 30%;
+    --herbal-800: 138 95% 20%;
+    --herbal-900: 138 100% 10%;
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+
+  /* Add Google Fonts import */
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..700;1,400..700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+}
+ 
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+  }
+
+  /* Custom font assignments */
+  h1, h2, h3, .font-serif {
+    font-family: 'Playfair Display', serif;
+  }
+
+  p, div, span, button {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+}
+
+/* Add herbal pattern background for chat interface */
+.herb-pattern-bg {
+  background-color: #f8f9fa;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c1e1c5' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Add herbal colors utility classes */
+.bg-herbal-50 { background-color: hsl(var(--herbal-50)); }
+.bg-herbal-100 { background-color: hsl(var(--herbal-100)); }
+.bg-herbal-200 { background-color: hsl(var(--herbal-200)); }
+.bg-herbal-300 { background-color: hsl(var(--herbal-300)); }
+.bg-herbal-400 { background-color: hsl(var(--herbal-400)); }
+.bg-herbal-500 { background-color: hsl(var(--herbal-500)); }
+.bg-herbal-600 { background-color: hsl(var(--herbal-600)); }
+.bg-herbal-700 { background-color: hsl(var(--herbal-700)); }
+.bg-herbal-800 { background-color: hsl(var(--herbal-800)); }
+.bg-herbal-900 { background-color: hsl(var(--herbal-900)); }
+
+.text-herbal-50 { color: hsl(var(--herbal-50)); }
+.text-herbal-100 { color: hsl(var(--herbal-100)); }
+.text-herbal-200 { color: hsl(var(--herbal-200)); }
+.text-herbal-300 { color: hsl(var(--herbal-300)); }
+.text-herbal-400 { color: hsl(var(--herbal-400)); }
+.text-herbal-500 { color: hsl(var(--herbal-500)); }
+.text-herbal-600 { color: hsl(var(--herbal-600)); }
+.text-herbal-700 { color: hsl(var(--herbal-700)); }
+.text-herbal-800 { color: hsl(var(--herbal-800)); }
+.text-herbal-900 { color: hsl(var(--herbal-900)); }
+
+.hover\:bg-herbal-50:hover { background-color: hsl(var(--herbal-50)); }
+.hover\:bg-herbal-100:hover { background-color: hsl(var(--herbal-100)); }
+.hover\:bg-herbal-200:hover { background-color: hsl(var(--herbal-200)); }
+.hover\:bg-herbal-300:hover { background-color: hsl(var(--herbal-300)); }
+.hover\:bg-herbal-400:hover { background-color: hsl(var(--herbal-400)); }
+.hover\:bg-herbal-500:hover { background-color: hsl(var(--herbal-500)); }
+.hover\:bg-herbal-600:hover { background-color: hsl(var(--herbal-600)); }
+.hover\:bg-herbal-700:hover { background-color: hsl(var(--herbal-700)); }
+.hover\:bg-herbal-800:hover { background-color: hsl(var(--herbal-800)); }
+.hover\:bg-herbal-900:hover { background-color: hsl(var(--herbal-900)); }
+
+/* Enhanced animations */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Card hover effects */
+.card-hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+

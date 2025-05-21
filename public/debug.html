@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Herb Harmony Debug</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    .card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #f7fafc;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    h1 { color: #2c7a7b; margin-bottom: 1rem; }
+    h2 { color: #2d3748; font-size: 1.25rem; margin-top: 0; }
+    pre {
+      background-color: #edf2f7;
+      padding: 12px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 14px;
+    }
+    .success { color: #38a169; }
+    .error { color: #e53e3e; }
+    button {
+      background-color: #2c7a7b;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background-color: #285e61;
+    }
+  </style>
+</head>
+<body>
+  <h1>Herb Harmony Visualizer - Debug Page</h1>
+  
+  <div class="card">
+    <h2>Static File Test</h2>
+    <p class="success">✅ If you can see this page, static file serving is working correctly.</p>
+  </div>
+  
+  <div class="card">
+    <h2>Environment Variables</h2>
+    <p>Checking if environment variables are loaded (will only show if they exist, not their values):</p>
+    <div id="env-check">Loading...</div>
+  </div>
+  
+  <div class="card">
+    <h2>JavaScript Module Test</h2>
+    <p>Testing if JavaScript modules load correctly:</p>
+    <div id="module-test">Click the button below to test</div>
+    <button id="test-module-btn">Test Module Loading</button>
+  </div>
+  
+  <div class="card">
+    <h2>Network Requests</h2>
+    <p>Testing if network requests work:</p>
+    <div id="network-test">Click the button below to test</div>
+    <button id="test-network-btn">Test Network Request</button>
+  </div>
+  
+  <div class="card">
+    <h2>Console Output</h2>
+    <pre id="console-output">Console messages will appear here...</pre>
+  </div>
+
+  <script>
+    // Capture console output
+    const consoleOutput = document.getElementById('console-output');
+    const originalConsole = {
+      log: console.log,
+      error: console.error,
+      warn: console.warn,
+      info: console.info
+    };
+    
+    function logToElement(type, ...args) {
+      const message = args.map(arg => 
+        typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)
+      ).join(' ');
+      
+      consoleOutput.textContent += `[${type}] ${message}\n`;
+      return args;
+    }
+    
+    console.log = function(...args) {
+      originalConsole.log.apply(console, args);
+      logToElement('log', ...args);
+    };
+    
+    console.error = function(...args) {
+      originalConsole.error.apply(console, args);
+      logToElement('error', ...args);
+    };
+    
+    console.warn = function(...args) {
+      originalConsole.warn.apply(console, args);
+      logToElement('warn', ...args);
+    };
+    
+    console.info = function(...args) {
+      originalConsole.info.apply(console, args);
+      logToElement('info', ...args);
+    };
+    
+    // Check environment variables
+    const envCheck = document.getElementById('env-check');
+    try {
+      // We can't directly access import.meta.env in a regular script
+      // So we'll check for window.ENV if it's defined by Vite
+      const envVars = ['VITE_SUPABASE_URL', 'VITE_SUPABASE_ANON_KEY', 'VITE_STRIPE_PUBLIC_KEY'];
+      const results = [];
+      
+      envVars.forEach(varName => {
+        const exists = typeof window !== 'undefined' && 
+                      window.ENV && 
+                      typeof window.ENV[varName] !== 'undefined';
+        
+        results.push(`<p><strong>${varName}:</strong> ${exists ? 
+          '<span class="success">✅ Exists</span>' : 
+          '<span class="error">❌ Missing</span>'}</p>`);
+      });
+      
+      envCheck.innerHTML = results.join('') || 'No environment variables detected';
+      console.log('Environment variables check completed');
+    } catch (error) {
+      envCheck.innerHTML = `<p class="error">Error checking environment variables: ${error.message}</p>`;
+      console.error('Environment variables check error:', error);
+    }
+    
+    // Test module loading
+    document.getElementById('test-module-btn').addEventListener('click', async () => {
+      const moduleTest = document.getElementById('module-test');
+      
+      try {
+        // Create a test module
+        const moduleCode = 'export function test() { return "Module loaded successfully!"; }';
+        const blob = new Blob([moduleCode], { type: 'application/javascript' });
+        const url = URL.createObjectURL(blob);
+        
+        moduleTest.innerHTML = '<p>Testing module loading...</p>';
+        console.log('Testing JavaScript module loading...');
+        
+        try {
+          const module = await import(/* @vite-ignore */ url);
+          moduleTest.innerHTML = `<p class="success">✅ ${module.test()}</p>`;
+          console.log('Module loaded successfully');
+        } catch (error) {
+          moduleTest.innerHTML = `<p class="error">❌ Module loading failed: ${error.message}</p>`;
+          console.error('Module loading error:', error);
+        }
+      } catch (error) {
+        moduleTest.innerHTML = `<p class="error">❌ Test setup failed: ${error.message}</p>`;
+        console.error('Module test setup error:', error);
+      }
+    });
+    
+    // Test network requests
+    document.getElementById('test-network-btn').addEventListener('click', async () => {
+      const networkTest = document.getElementById('network-test');
+      
+      try {
+        networkTest.innerHTML = '<p>Testing network request...</p>';
+        console.log('Testing network request...');
+        
+        try {
+          // Make a simple request to a public API
+          const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
+          const data = await response.json();
+          
+          networkTest.innerHTML = `
+            <p class="success">✅ Network request successful!</p>
+            <pre>${JSON.stringify(data, null, 2)}</pre>
+          `;
+          console.log('Network request successful:', data);
+        } catch (error) {
+          networkTest.innerHTML = `<p class="error">❌ Network request failed: ${error.message}</p>`;
+          console.error('Network request error:', error);
+        }
+      } catch (error) {
+        networkTest.innerHTML = `<p class="error">❌ Test setup failed: ${error.message}</p>`;
+        console.error('Network test setup error:', error);
+      }
+    });
+    
+    console.log('Debug page loaded successfully');
+  </script>
+</body>
+</html>
