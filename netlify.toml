@@ -9,21 +9,41 @@
   to = "/index.html"
   status = 200
 
-# Proper MIME type configuration for JavaScript modules
+# Proper MIME type configuration for all file types
 [[headers]]
   for = "/*.js"
   [headers.values]
-    Content-Type = "application/javascript; charset=utf-8"
+    Content-Type = "text/javascript; charset=utf-8"
 
 [[headers]]
   for = "/*.mjs"
   [headers.values]
-    Content-Type = "application/javascript; charset=utf-8"
+    Content-Type = "text/javascript; charset=utf-8"
 
 [[headers]]
   for = "/*.css"
   [headers.values]
     Content-Type = "text/css; charset=utf-8"
+
+[[headers]]
+  for = "/*.png"
+  [headers.values]
+    Content-Type = "image/png"
+
+[[headers]]
+  for = "/*.jpg"
+  [headers.values]
+    Content-Type = "image/jpeg"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Content-Type = "image/svg+xml"
+
+[[headers]]
+  for = "/*.ico"
+  [headers.values]
+    Content-Type = "image/x-icon"
 
 # Note: Environment variables should be set in the Netlify dashboard
 # These placeholders will be overridden by the values in the dashboard
@@ -33,6 +53,7 @@
   VITE_STRIPE_PUBLIC_KEY = "placeholder"
   NODE_ENV = "production"
 
+# Security headers
 [[headers]]
   for = "/*"
   [headers.values]
@@ -40,5 +61,5 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Content-Security-Policy = "default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data:;"
+    Content-Security-Policy = "default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data: blob:; font-src 'self' https: data:;"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
