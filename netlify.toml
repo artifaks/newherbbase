@@ -45,14 +45,6 @@
   [headers.values]
     Content-Type = "image/x-icon"
 
-# Note: Environment variables should be set in the Netlify dashboard
-# These placeholders will be overridden by the values in the dashboard
-[build.environment]
-  VITE_SUPABASE_URL = "placeholder"
-  VITE_SUPABASE_ANON_KEY = "placeholder"
-  VITE_STRIPE_PUBLIC_KEY = "placeholder"
-  NODE_ENV = "production"
-
 # Security headers
 [[headers]]
   for = "/*"
@@ -63,3 +55,8 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Content-Security-Policy = "default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data: blob:; font-src 'self' https: data:;"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# Environment variables
+[build.environment]
+  NODE_VERSION = "18"
+  NODE_ENV = "production"
